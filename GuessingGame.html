@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guessing Number </title>
+
+    <style>
+        body{
+            background-color: #121212;
+        }
+        h1{
+            text-align: center;
+            color: white;
+            font-size: 50px;
+            font-weight: 900;
+            letter-spacing: 5px;
+        }
+        #main{
+            height: 400px;
+            width: 420px;
+            border: 2px solid black;
+            margin: 60px 400px  0 550px;
+            border-radius: 3%;
+            background-color: #e5dcdc;
+            border-color: lightcyan;           
+        }
+        #main:hover{
+             box-shadow:8px 8px 10px orange;
+             transition-delay:1ms;
+             transition-duration: 2s;
+        }
+        h2{
+            text-align: center;
+            font-size: 28px;
+        }
+        #guessField{
+            height: 30px;
+            width: 240px;
+            margin-left: 20px;
+            border-radius: 5%;
+            font-size: 20px;
+        }
+        #guessSubmit{
+            height: 35px;
+            width: 100px;
+            border-radius: 12%;
+            background-color: #007BFF;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        #getresult{
+            height: 270px;
+            width: 420px;
+            margin-top: 0;
+            margin-left: 5px;
+            font-size: 20px;          
+        }
+        #winemoji{
+            height:225px;
+            margin-top: 10px;
+            margin-left: 80px;
+            border-radius: 50%;
+        
+        }
+        #lossemoji{
+            height:220px;
+            margin-top: 10px;
+            margin-left: 90px;
+            border-radius: 50%;
+        }
+        #new{
+            text-decoration: none;
+        }
+
+        @media (max-width:400px){
+
+            h1{
+                font-size: 30px;
+                font-weight: 300;
+                letter-spacing: 2px;
+            }
+            #main{
+                height: 300px;
+                width: 300px;             
+                margin: 10px 25px  0 25px;
+                border-radius: 5%;       
+            }
+            h2{
+                font-size: 20px;
+            }
+            #guessField{
+                height: 20px;
+                width: 200px;
+                margin-left: 10px;
+                border-radius: 5%;
+                font-size: 16px;
+            }
+            #guessSubmit{
+                height: 25px;
+                width: 70px;
+                border-radius: 5%;
+                font-size: 14px;
+            }
+            #getresult{
+                height: 220px;
+                width: 290px;
+                margin-top: 0;
+                margin-left: 5px;
+                font-size: 17px;   
+                word-wrap: break-word;
+                overflow-wrap: anywhere;        
+            }
+            #winemoji{
+                height:130px;
+                margin-top: 10px;
+                margin-left: 70px;
+                border-radius: 50%;  
+            }
+            #lossemoji{
+                height:130px;
+                margin-top: 10px;
+                padding-top:10px ;
+                margin-left: 40px;
+                border-radius: 50%;
+                position: fixed;
+            }
+        }
+    </style>
+
+</head>
+<body>
+
+    <h1>GUESSING GAME </h1>
+    <div id="main">
+        <h2>Guess Number between 1 - 100 </h2>
+        <hr>
+
+        <input type="text" id="guessField" required placeholder="Enter Guess Number 🤔" >
+        <input type="submit" value = "Check" id="guessSubmit">
+        
+        <hr>
+        <div id="getresult"></div>
+    </div>
+   <script>
+
+        let rand=Math.floor(Math.random()*100)+1;  
+        let btn=document.getElementById("guessSubmit");
+        let count=0;
+        btn.addEventListener('click', () => {
+                let guss=Number(document.getElementById("guessField").value);
+                let result = document.getElementById("getresult");
+                count++;
+                let val =5-count;
+                
+                if(guss==0){
+                    if(count==0){
+                        result.innerHTML="Fill Required <sup>*</sup>";
+                        count=0;
+                        return ;
+                    }
+                    else{
+                         result.innerHTML="Fill Required <sup>*</sup>";
+                         count=count-1;
+                    }
+                }
+           
+                if(guss<=0 || guss>100){
+                    setTimeout(()=>{
+                        result.innerTextL="Please Enter Valid Number";
+                        document.getElementById("guessField").value="";
+                    },40);
+                    count--;
+                    return;
+                }
+                else if(guss==rand){
+                    setTimeout(()=> {
+                        result.innerHTML="Congratulations! You got right number."+'<a href="GuessingGame.html" id="new">RE-START!</a>' +"<video src='winemoj.mp4' id='winemoji' autoplay loop muted></video>";
+                        document.getElementById("guessField").value="";
+                    },40)
+                    return;
+                }
+                else if(guss > rand){
+                    result.innerText=`Your given number is Large, Please Enter small number. ${val} left chance`;
+                }
+                else if(guss<rand) {
+                    result.innerText=`your given number is small ,Please Enter Large Number ${val} left chance`;
+                }
+                if(count >=5){
+                    setTimeout(()=>{
+                        result.innerHTML="You Loss!, No Chance Available."+'<a href="GuessingGame.html" style="margin-left:15px;"id="new">RE-START!</a>' +"<video src='lossemoji.mp4' id='lossemoji' autoplay loop></video>";
+                        document.getElementById("guessField").value="";
+                    }, 40);
+                    return ;
+                }   
+                setTimeout(()=>{
+                    document.getElementById("guessField").value="";
+                },40)
+    });
+   </script>    
+ 
+  
+  <!-- <script>
+        let rand=Math.floor(Math.random()*100)+1;  
+        let btn=document.getElementById("guessSubmit");
+        let count=0;
+        btn.addEventListener('click', () => {
+        let guss=Number(document.getElementById("guessField").value);
+        count++;
+        let val = 5-count;
+        if(count >=5){
+            document.getElementById("getresult").innerText=" Loss!, NO Chance avaiable ";
+            return 0;
+        }
+        if(guss<=0  || guss>100){
+            setTimeout(()=>{
+                document.getElementById("getresult").innerText="Please Enter Valid Number";
+                document.getElementById("guessField").value="";
+            },40);
+            return;
+        }
+        else if(guss==rand){
+            setTimeout(()=> {
+                document.getElementById("getresult").innerText="Congratulations! You got right number i.e"+rand;
+                document.getElementById("guessField").value="";
+            },40)
+            return;
+        }
+        else if(guss > rand){
+            setTimeout(()=>{
+                document.getElementById("getresult").innerText="Your number Large, Please Enter small number. " + val +" left chance";
+                document.getElementById("guessField").value="";
+            },40);
+        }
+        else if(guss<rand) {
+            setTimeout(()=>{
+                document.getElementById("getresult").innerText="your number small ,Please Enter Large Number "+ val +" left chance";
+                document.getElementById("guessField").value="";
+            },40);
+        }
+    });
+
+   </script> -->
+<!--     
+    <input type="text" id="guess" placeholder="Enter number">
+    <button id="btnSearch">Search</button>
+    <button type="reset" onclick="getRest()" id="btnRest">Reset</button>
+    
+    <div id="getresult"></div> -->
+
+     <!-- <script>
+        let rand = Math.floor(Math.random()*100)+1;
+        let count=0;
+        function getResult(){
+            let guss=parseInt(document.getElementById("guess").value);
+            count++;
+            if(guss<=0 || guss >100){
+                document.getElementById("getresult").innerText="Please Enter Valid Number";
+                
+            }
+            else if(guss==rand){
+                document.getElementById("getresult").innerText="Congrats! ";
+            }
+            else if(guss > rand){
+                document.getElementById("getresult").innerText="Your number Large, Please Enter small number ";
+            }
+            else {
+                document.getElementById("getresult").innerText="your number small ,Please Enter Large Number";
+            }
+        }    
+        function getRest(){
+            count=0;
+            document.getElementById("guess").value="";
+            document.getElementById("getresult").innerText="";
+        }
+    </script>  -->
+</body>
+</html>
