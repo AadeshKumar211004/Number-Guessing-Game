@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guessing Number </title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>GUESSING GAME </h1>
+    <div id="main">
+        <h2>Guess Number between 1 - 100 </h2>
+        <hr>
+
+        <input type="text" id="guessField" required placeholder="Enter Guess Number 🤔" >
+        <input type="submit" value = "Check" id="guessSubmit">
+        
+        <hr>
+        <div id="getresult"></div>
+    </div>
+    <script>
+
+        let rand=Math.floor(Math.random()*100)+1;  
+        let btn=document.getElementById("guessSubmit");
+        let count=0;
+        btn.addEventListener('click', () => {
+                let guss=Number(document.getElementById("guessField").value);
+                let result = document.getElementById("getresult");
+                count++;
+                let val =5-count;
+                
+                if(guss==0){
+                    if(count==0){
+                        result.innerHTML="Fill Required <sup>*</sup>";
+                        count=0;
+                        return ;
+                    }
+                    else{
+                         result.innerHTML="Fill Required <sup>*</sup>";
+                         count=count-1;
+                    }
+                }
+           
+                if(guss<=0 || guss>100){
+                    setTimeout(()=>{
+                        result.innerTextL="Please Enter Valid Number";
+                        document.getElementById("guessField").value="";
+                    },40);
+                    count--;
+                    return;
+                }
+                else if(guss==rand){
+                    setTimeout(()=> {
+                        result.innerHTML="Congratulations! You got right number."+'<a href="GuessingGame.html" id="new">RE-START!</a>' +"<video src='winemoj.mp4' id='winemoji' autoplay loop muted></video>";
+                        document.getElementById("guessField").value="";
+                    },40)
+                    return;
+                }
+                else if(guss > rand){
+                    result.innerText=`Your given number is Large, Please Enter small number. ${val} left chance`;
+                }
+                else if(guss<rand) {
+                    result.innerText=`your given number is small ,Please Enter Large Number ${val} left chance`;
+                }
+                if(count >=5){
+                    setTimeout(()=>{
+                        result.innerHTML="You Loss!, No Chance Available."+'<a href="GuessingGame.html" style="margin-left:15px;"id="new">RE-START!</a>' +"<video src='lossemoji.mp4' id='lossemoji' autoplay loop></video>";
+                        document.getElementById("guessField").value="";
+                    }, 40);
+                    return ;
+                }   
+                setTimeout(()=>{
+                    document.getElementById("guessField").value="";
+                },40)
+         });
+   </script>    
+</body>
+</html>
